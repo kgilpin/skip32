@@ -5,15 +5,15 @@ CREATE or REPLACE FUNCTION find_or_create_key(table_name TEXT) RETURNS TEXT AS $
 	BEGIN
 		SELECT key INTO k FROM skip32_keys WHERE name = table_name;
 		IF k is NULL THEN
-			k = md5(random()::TEXT);
-			INSERT INTO skip32_keys VALUES(table_name, k);
+						k = md5(random()::TEXT);
+						INSERT INTO skip32_keys VALUES(table_name, k);
 		END IF;
 		RETURN k;
 	END;
 $$ LANGUAGE plpgsql;
 
 -- skip32 helper method
-CREATE or REPLACE FUNCTION _g(key TEXT, k INTEGER, w INTEGER) RETURNS INTEGER AS $$
+CREATE or REPLACE FUNCTION _g(key TEXT, k INTEGER, w BIGINT) RETURNS INTEGER AS $$
 	DECLARE
 		ftable INTEGER[];
 		g1 INTEGER;
@@ -47,14 +47,14 @@ $$ LANGUAGE plpgsql;
 --    true: encrypt (default)
 --    false: decrypt
 --###################################################################
-CREATE or REPLACE FUNCTION skip32(table_name TEXT, ival INTEGER) RETURNS INTEGER AS $$
+CREATE or REPLACE FUNCTION skip32(table_name TEXT, ival BIGINT) RETURNS BIGINT AS $$
 	DECLARE
 		key TEXT;
 		buf INTEGER[];
 		kstep INTEGER;
 		k INTEGER;
-		wl INTEGER;
-		wr INTEGER;
+		wl BIGINT;
+		wr BIGINT;
 		i INTEGER;
 		encrypt BOOLEAN;
 	BEGIN
@@ -87,6 +87,6 @@ CREATE or REPLACE FUNCTION skip32(table_name TEXT, ival INTEGER) RETURNS INTEGER
 $$ LANGUAGE plpgsql;
 
 -- usage
--- select skip32('order', 462);
+-- select skip32('product', 3);
 
 
