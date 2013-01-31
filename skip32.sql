@@ -5,8 +5,7 @@ CREATE or REPLACE FUNCTION find_or_create_key(key_id TEXT) RETURNS TEXT AS $$
 	BEGIN
 		SELECT key INTO k FROM skip32_keys WHERE name = key_id;
 		IF k is NULL THEN
-			k = md5(random()::TEXT);
-			INSERT INTO skip32_keys VALUES(key_id, k);
+			INSERT INTO skip32_keys VALUES(key_id) RETURNING key INTO k;
 		END IF;
 		RETURN k;
 	END;

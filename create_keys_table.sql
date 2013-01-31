@@ -4,7 +4,7 @@
 DROP TABLE "public"."skip32_keys";
 CREATE TABLE "public"."skip32_keys" (
 	"name" varchar(64) NOT NULL,
-	"key" varchar(32) DEFAULT md5((random())::text) NOT NULL
+	"key" varchar(32) DEFAULT gen_salt('md5') NOT NULL
 )
 WITH (OIDS=FALSE);
 ALTER TABLE "public"."skip32_keys" ADD PRIMARY KEY ("name");
