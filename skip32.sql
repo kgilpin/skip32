@@ -1,12 +1,12 @@
 -- key finder
-CREATE or REPLACE FUNCTION find_or_create_key(table_name TEXT) RETURNS TEXT AS $$
+CREATE or REPLACE FUNCTION find_or_create_key(key_id TEXT) RETURNS TEXT AS $$
 	DECLARE
 		k TEXT;
 	BEGIN
-		SELECT key INTO k FROM skip32_keys WHERE name = table_name;
+		SELECT key INTO k FROM skip32_keys WHERE name = key_id;
 		IF k is NULL THEN
-						k = md5(random()::TEXT);
-						INSERT INTO skip32_keys VALUES(table_name, k);
+			k = md5(random()::TEXT);
+			INSERT INTO skip32_keys VALUES(key_id, k);
 		END IF;
 		RETURN k;
 	END;
@@ -40,14 +40,13 @@ $$ LANGUAGE plpgsql;
 --###################################################################
 -- skip32 engine
 --  param:
---    table_name: correspond table name
+--    key_id: id, string format
 --    ival: plain input to be encrypted
---
---  encrypt variable indicate enc/dec direct
---    true: encrypt (default)
---    false: decrypt
+--    encrypt: indicate enc/dec direct
+--      true: encrypt (default)
+--      false: decrypt
 --###################################################################
-CREATE or REPLACE FUNCTION skip32(table_name TEXT, ival BIGINT) RETURNS BIGINT AS $$
+CREATE or REPLACE FUNCTION skip32(key_id TEXT, ival BIGINT, encrypt BOOLEAN default true) RETURNS BIGINT AS $$
 	DECLARE
 		key TEXT;
 		buf INTEGER[];
@@ -56,10 +55,8 @@ CREATE or REPLACE FUNCTION skip32(table_name TEXT, ival BIGINT) RETURNS BIGINT A
 		wl BIGINT;
 		wr BIGINT;
 		i INTEGER;
-		encrypt BOOLEAN;
 	BEGIN
-		encrypt = TRUE; -- default to encrypt
-		key = find_or_create_key(table_name);
+		key = find_or_create_key(key_id);
 		-- pack into words
 		wr = ival & x'FFFF'::INTEGER;
 		wl = (ival >> 16) & x'FFFF'::INTEGER;

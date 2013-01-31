@@ -19,13 +19,18 @@ ActiveRecord::Base.establish_connection ({
   :database => dbconf['database']})
 
 class Skip32Keys < ActiveRecord::Base
-  attr_accessible :name, :key
+  def readonly?
+    true
+  end
 end
 
 (0x0..0xFFFFFFFF).each {|i|
   x = ActiveRecord::Base.connection.execute("select skip32('product', #{i});")
   v_sql = x.first['skip32'].to_i
+  x = ActiveRecord::Base.connection.execute("select skip32('product', #{v_sql}, false);")
+  v_org = x.first['skip32'].to_i
   key = Skip32Keys.find_by_name('product').key
+  
 
   buf = []
   buf[0] = (i >> 24) & 0xFF
@@ -40,10 +45,11 @@ end
     print "\r#{"%.3f" % (i * 100.0 / 0xFFFFFFFF)}% Done."
   end
 
-  if v_ruby != v_sql
+  if v_ruby != v_sql or v_org != i
     puts "KEY: #{key}"
     puts "IVAL: #{i}"
     puts "ENC - SQL:#{v_sql} | RUBY:#{v_ruby}"
+    puts "DEC - SQL:#{v_org}"
     raise "Testing get error!!!"
   end
 }
