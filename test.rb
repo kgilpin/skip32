@@ -29,7 +29,7 @@ end
   v_ruby = ((buf[0] << 24) + (buf[1] << 16) + (buf[2] << 8) + (buf[3]))
 
   if (i % 0x100) == 0
-    print "\r#{"%.3f" % (i * 100.0 / 0xFFFFFF)}% Done."
+    print "\r#{"%.3f" % (i * 100.0 / 0xFFFFFFFF)}% Done."
   end
 
   if v_ruby != v_sql
