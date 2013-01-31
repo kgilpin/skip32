@@ -1,14 +1,22 @@
 require "rubygems"
 require "active_record"
+require "yaml"
 
 require File.expand_path('../skip32.rb', __FILE__)
 
+begin
+  dbconf = YAML.load_file('database.yml')
+rescue
+  puts('There is no database.yml');
+  exit
+end
+
 ActiveRecord::Base.establish_connection ({
   :adapter => "postgresql",
-  :host => "localhost",
-  :username => "test",
-  :password => "",
-  :database => "skip32"})
+  :host => dbconf['host'],
+  :username => dbconf['user'],
+  :password => dbconf['password'],
+  :database => dbconf['database']})
 
 class Skip32Keys < ActiveRecord::Base
   attr_accessible :name, :key
