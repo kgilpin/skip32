@@ -17,6 +17,13 @@ Files
 
  skip32.rb
    skip32 engine in ruby.
+ 
+ crockford.rb
+   crockford engine in ruby.
+ 
+ crockford.sql
+   crockford PL/PGSQL
+   includes crockford engine
 
  test.rb
    The test script in ruby, check the result from PL/PGSQL with value
