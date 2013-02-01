@@ -83,6 +83,3 @@ BEGIN
 	return ret;
 END $BODY$ LANGUAGE 'plpgsql';
 
-select crockford(123123123, 5);
-select crockford_dec('3NDDDK');
-

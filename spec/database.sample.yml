@@ -1,0 +1,7 @@
+# database configuration
+
+encoding: unicode
+host: localhost
+database: skip32
+user: username
+password: password

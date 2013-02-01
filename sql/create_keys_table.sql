@@ -4,7 +4,7 @@
 CREATE EXTENSION pgcrypto;
 
 -- ----------------------------
--- Table structure for "public"."skip32_keys"
+-- Table structure for "skip32_keys"
 -- ----------------------------
 DROP TABLE "skip32_keys";
 CREATE TABLE "skip32_keys" (

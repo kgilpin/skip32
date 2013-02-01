@@ -1,6 +1,0 @@
-# database configuration
-
-  host: localhost
-  database: skip32
-  user: username
-  password: password
