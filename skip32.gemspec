@@ -6,8 +6,8 @@ require 'skip32/version'
 Gem::Specification.new do |gem|
   gem.name          = "skip32"
   gem.version       = Skip32::VERSION
-  gem.authors       = ["Kevin Gilpin"]
-  gem.email         = ["kgilpin@gmail.com"]
+  gem.authors       = ["Kevin Gilpin", "Chen ZhongXue"]
+  gem.email         = ["kgilpin@gmail.com", "xmpolaris@gmail.com"]
   gem.summary       = %q{32-bit block cipher and Crockford 32-bit encoding in PL/SQL}
   gem.homepage      = ""
   

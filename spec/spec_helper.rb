@@ -7,12 +7,12 @@ require 'sequel'
 require "yaml"
 require "integer_obfuscator"
 require 'base32/crockford'
+require "skip32"
 
 RSpec.configure do |config|
 end
 
-root_dir = File.expand_path('..', File.dirname(__FILE__))
-spec_dir = File.expand_path('spec', root_dir)
+spec_dir = File.expand_path('spec', Skip32::root_dir)
 
 begin
   dbconf = YAML.load_file(File.expand_path('database.yml', spec_dir))
