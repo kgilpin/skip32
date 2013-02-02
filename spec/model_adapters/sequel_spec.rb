@@ -9,7 +9,7 @@ end
 DB.install_skip32_plsql
 DB.acts_as_skip32 :products, :id
 
-describe "ActiveRecord Adapter test" do
+describe "Sequel Adapter test" do
   it "verifies encrypted pk with ruby result" do
     pk = DB[:products].insert(:name => "Test Product")
     key = DB[:skip32_keys].where("name = 'products'").first[:key]

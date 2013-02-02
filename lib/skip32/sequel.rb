@@ -1,5 +1,5 @@
-# 
-# ActiveRecord migration class extention
+#
+# Sequel Database class extention
 #
 
 module Skip32
