@@ -1,11 +1,5 @@
 require 'spec_helper'
 
-class Skip32Keys < ActiveRecord::Base
-  def readonly?
-    true
-  end
-end
-
 describe "system test" do
   it "verifies 100000 sql and ruby values" do
     # (0x0..0xFFFFFFFF).each {|iter|
