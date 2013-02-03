@@ -1,7 +1,7 @@
 -- ----------------------------
 -- Activate pgcrypto
 -- ----------------------------
-CREATE EXTENSION pgcrypto;
+CREATE EXTENSION IF NOT EXISTS pgcrypto;
 
 -- ----------------------------
 -- Table structure for "skip32_keys"
