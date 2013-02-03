@@ -1,6 +1,10 @@
 require "skip32/version"
-require "skip32/sequel"
-require "skip32/activerecord"
+if defined? Sequel
+  require "skip32/sequel"
+end
+if defined? ActiveRecord
+  require "skip32/activerecord"
+end
 
 module Skip32
   def self.plsql
