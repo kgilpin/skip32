@@ -18,6 +18,9 @@ end
 describe "ActiveRecord Adapter test" do
   it "verifies encrypted pk with ruby result" do
     pk = Product.create(:name => "Test Product").id
+
+    ActiveRecord::Base.connection.execute("SELECT currval('products_id_seq')")[0]['currval'].to_i.should == 1
+    
     key = Skip32Keys.find_by_name('products').key
 
     # first record will be encrypted with seq 1
