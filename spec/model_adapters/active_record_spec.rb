@@ -1,21 +1,27 @@
 require "spec_helper"
 
-ActiveRecord::Schema.define do
-  self.verbose = false
-
-  create_table :products, :force => true do |t|
-    t.string :name, :null => false
-  end
-
-  install_skip32_plsql
-  acts_as_skip32 :products, :id
-end
-
 class Product < ActiveRecord::Base
   attr_accessible :name
 end
 
 describe "ActiveRecord Adapter test" do
+  before(:all) {
+    ActiveRecord::Schema.define do
+      self.verbose = false
+    
+      create_table :products, :force => true do |t|
+        t.string :name, :null => false
+      end
+    
+      install_skip32_plsql
+      acts_as_skip32 :products, :id
+    end
+  }
+  
+  before {
+    ActiveRecord::Base.connection.execute("ALTER SEQUENCE products_id_seq RESTART WITH 1")
+  }
+  
   it "verifies encrypted pk with ruby result" do
     pk = Product.create(:name => "Test Product").id
 
